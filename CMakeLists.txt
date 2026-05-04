@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 
 # If vcpkg present as submodule, bring in the toolchain
 if( EXISTS ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake )
@@ -33,7 +33,6 @@ if(SANITIZE_ADDRESS OR SANITIZE_THREAD OR SANITIZE_MEMORY OR SANITIZE_UNDEFINED)
 	set(SANITIZE ON)
 endif()
 
-include(FlagsMSVC)
 add_definitions( -DVALVE_CRYPTO_ENABLE_25519 )
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 	add_definitions(
@@ -51,11 +50,6 @@ option(LTO "Enable Link-Time Optimization" OFF)
 option(ENABLE_ICE "Enable support for NAT-punched P2P connections using ICE protocol.  Build native ICE client" ON)
 option(USE_STEAMWEBRTC "Build Google's WebRTC library to get ICE support for P2P" OFF)
 option(Protobuf_USE_STATIC_LIBS "Link with protobuf statically" OFF)
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	option(MSVC_CRT_STATIC "Link the MSVC CRT statically" OFF)
-	configure_msvc_runtime()
-	print_default_msvc_flags()
-endif()
 
 #
 # Primary crypto library (for AES, SHA256, etc)
@@ -99,8 +93,8 @@ endif()
 if (USE_CRYPTO STREQUAL "OpenSSL")
 	# Match the OpenSSL runtime to our setting.
 	# Note that once found the library paths are cached and will not change if the option is changed.
-	if (MSVC)
-		set(OPENSSL_MSVC_STATIC_RT ${MSVC_CRT_STATIC})
+	if (MSVC AND CMAKE_MSVC_RUNTIME_LIBRARY MATCHES "^MultiThreaded($|Debug$)")
+		set(OPENSSL_MSVC_STATIC_RT TRUE)
 	endif()
 
 	find_package(OpenSSL REQUIRED)
