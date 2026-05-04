@@ -89,6 +89,10 @@ def main() -> int:
     repo_root = Path(__file__).resolve().parents[1]
     env = compiler_env(args.compiler, os.environ)
 
+    if args.sanitizer == "tsan":
+        supp = repo_root / "tests" / "tsan.supp"
+        env["TSAN_OPTIONS"] = f"suppressions={supp}"
+
     cmake_args = [
         "cmake",
         "-S",
