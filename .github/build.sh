@@ -118,6 +118,16 @@ run_matrix_for_current_compiler() {
 		fi
 	fi
 
+	# TSan with libsodium (avoids OpenSSL false positives).
+	# Only clang, only x86_64 (tsan not reliable elsewhere).
+	if [[ "${compiler}" == "clang" ]] && [[ "${uname_M}" == x86_64 ]]; then
+		run_single --compiler "${compiler}" --build-dir build-tsan \
+			--sanitizer tsan \
+			--crypto libsodium --crypto25519 libsodium \
+			--targets test_connection test_crypto \
+			--run-tests
+	fi
+
 	# Build normal unsanitized binaries
 	run_single --compiler "${compiler}" --build-dir build-cmake --build-type RelWithDebInfo --run-tests
 
