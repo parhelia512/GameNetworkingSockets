@@ -39,6 +39,7 @@ if(ENABLE_ICE)
 		../examples/trivial_signaling_client.cpp)
 	set_target_common_gns_properties( test_p2p )
 	target_link_libraries(test_p2p ${GAMENETWORKINGSOCKETS_LIB})
+	add_sanitizers(test_p2p)
 
 	# Publish the test script
 	set( P2P_TEST_SCRIPT ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_p2p.py )
