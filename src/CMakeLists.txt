@@ -380,12 +380,13 @@ endif()
 #
 if (BUILD_TOOLS)
 
-	# The cert tool requires picojson.
-	set(picojson_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/picojson)
-	check_submodule( ${picojson_SOURCE_DIR} ${picojson_SOURCE_DIR}/picojson.h )
+	# The cert tool requires vjson.
+	set(vjson_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external/vjson)
+	check_submodule( ${vjson_SOURCE_DIR} ${vjson_SOURCE_DIR}/vjson.h )
 
 	add_executable(steamnetworkingsockets_certtool
 		"steamnetworkingsockets/certtool/steamnetworkingsockets_certtool.cpp"
+		${vjson_SOURCE_DIR}/vjson.cpp
 		)
 	target_sources(steamnetworkingsockets_certtool PRIVATE
 		${GNS_COMMON_SRCS}
@@ -397,7 +398,7 @@ if (BUILD_TOOLS)
 	target_include_directories(steamnetworkingsockets_certtool PUBLIC
 		"$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>"
 		"$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/${CMAKE_INSTALL_INCLUDEDIR}/GameNetworkingSockets>"
-		${picojson_SOURCE_DIR}
+		${vjson_SOURCE_DIR}
 		)
 
 	target_include_directories(steamnetworkingsockets_certtool PRIVATE
