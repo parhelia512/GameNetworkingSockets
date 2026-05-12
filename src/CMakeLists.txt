@@ -51,6 +51,7 @@ set(GNS_CLIENTLIB_SRCS
 	"steamnetworkingsockets/clientlib/steamnetworkingsockets_flat.cpp"
 	"steamnetworkingsockets/clientlib/steamnetworkingsockets_connections.cpp"
 	"steamnetworkingsockets/clientlib/steamnetworkingsockets_socketthread.cpp"
+	"steamnetworkingsockets/clientlib/steamnetworkingsockets_lowlevel_misc.cpp"
 	"steamnetworkingsockets/clientlib/steamnetworkingsockets_spew.cpp"
 	"steamnetworkingsockets/clientlib/steamnetworkingsockets_taskqueue.cpp"
 	"steamnetworkingsockets/clientlib/steamnetworkingsockets_ice_client.cpp"
